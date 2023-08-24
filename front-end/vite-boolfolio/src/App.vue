@@ -13,6 +13,18 @@ export default {
             pages: []
         }
     },
+    methods: {
+        toPage(url) {
+            axios.get(url)
+                .then(res => {
+                    const data = res.data.projects;
+
+                    this.projects = data.data;
+                    this.pages = data.links;
+                })
+                .catch(err => console.error(err));
+        }
+    },
     mounted() {
         // axios.get(API + '/projects')
         //     .then(res => {
@@ -43,6 +55,11 @@ export default {
 
     <div class="row justify-content-center">
         <ProjectCard v-for="project in projects" :key="project.id" :project="project" class="col-3 mx-2 my-2" />
+    </div>
+
+    <div class="pages row justify-content-center my-3">
+        <div v-for="(page, index) in pages" :key="index" v-html="page.label" class="col btn mx-2"
+            :class="page.active ? 'btn-dark' : 'btn-secondary'" @click="toPage(page.url)"></div>
     </div>
 </template>
 
