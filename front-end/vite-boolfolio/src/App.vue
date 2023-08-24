@@ -9,16 +9,26 @@ export default {
     name: 'App',
     data() {
         return {
-            projects: []
+            projects: [],
+            pages: []
         }
     },
     mounted() {
-        axios.get(API + '/projects')
+        // axios.get(API + '/projects')
+        //     .then(res => {
+
+        //         this.projects = res.data.projects;
+
+        //         // console.log(JSON.stringify(this.projects, null, 2));
+        //     })
+        //     .catch(err => console.error(err));
+
+        axios.get(API + '/projects-page')
             .then(res => {
+                const data = res.data.projects;
 
-                this.projects = res.data.projects;
-
-                console.log(JSON.stringify(this.projects, null, 2));
+                this.projects = data.data;
+                this.pages = data.links;
             })
             .catch(err => console.error(err));
     },
